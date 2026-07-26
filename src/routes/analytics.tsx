@@ -97,7 +97,7 @@ function Analytics() {
               {week.map((level, di) => (
                 <div
                   key={di}
-                  className="aspect-square rounded-lg"
+                  className="aspect-square rounded-[9px]"
                   style={{
                     background:
                       level === 0 ? "var(--muted)" : `color-mix(in oklab, var(--primary) ${level * 24}%, transparent)`,
