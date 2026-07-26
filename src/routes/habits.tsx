@@ -77,7 +77,7 @@ function Habits() {
             return (
               <div
                 key={day}
-                className={`grid aspect-square place-items-center rounded-xl text-[10px] font-medium ${
+                className={`grid aspect-square place-items-center rounded-[10px] text-[10px] font-medium ${
                   hit ? "text-primary" : "text-muted-foreground"
                 }`}
                 style={{
