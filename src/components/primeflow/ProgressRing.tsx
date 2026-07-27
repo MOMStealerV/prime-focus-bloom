@@ -1,14 +1,37 @@
 import { useEffect, useState } from "react";
 
+export type RingState = "idle" | "focus" | "break" | "paused" | "completed";
+
 type Props = {
   value: number;
   size?: number;
   stroke?: number;
   label?: string;
   caption?: string;
+  sublabel?: string;
+  state?: RingState;
+  /** Stroke transition duration, ms. Short values keep a live countdown smooth. */
+  transitionMs?: number;
 };
 
-export function ProgressRing({ value, size = 180, stroke = 14, label, caption }: Props) {
+const RING_ANIMATION: Record<RingState, string> = {
+  idle: "animate-glow-soft",
+  focus: "animate-breathe",
+  break: "animate-breathe",
+  paused: "",
+  completed: "animate-burst",
+};
+
+export function ProgressRing({
+  value,
+  size = 180,
+  stroke = 14,
+  label,
+  caption,
+  sublabel,
+  state = "idle",
+  transitionMs = 1400,
+}: Props) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const id = window.setTimeout(() => setProgress(value), 120);
@@ -21,7 +44,7 @@ export function ProgressRing({ value, size = 180, stroke = 14, label, caption }:
 
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
+      <svg width={size} height={size} className={`-rotate-90 ${RING_ANIMATION[state]}`}>
         <defs>
           <linearGradient id="pf-ring" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="var(--primary)" />
@@ -46,7 +69,7 @@ export function ProgressRing({ value, size = 180, stroke = 14, label, caption }:
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 1.4s cubic-bezier(0.22,1,0.36,1)" }}
+          style={{ transition: `stroke-dashoffset ${transitionMs}ms cubic-bezier(0.22,1,0.36,1)` }}
         />
       </svg>
       <div className="absolute text-center">
@@ -57,6 +80,9 @@ export function ProgressRing({ value, size = 180, stroke = 14, label, caption }:
           <div className="mt-1 text-[11px] tracking-[0.18em] text-muted-foreground uppercase">
             {caption}
           </div>
+        ) : null}
+        {sublabel ? (
+          <div className="mt-1 text-[11px] text-muted-foreground">{sublabel}</div>
         ) : null}
       </div>
     </div>

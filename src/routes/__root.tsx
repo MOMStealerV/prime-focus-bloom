@@ -12,7 +12,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "../lib/theme";
-import { BottomNav } from "../components/primeflow/BottomNav";
+import { FocusEngineProvider } from "../lib/focus-engine";
+import { FocusLayer } from "../components/focus/FocusLayer";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -135,9 +137,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <BottomNav />
+        <FocusEngineProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <FocusLayer />
+          <Toaster position="top-center" />
+        </FocusEngineProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
