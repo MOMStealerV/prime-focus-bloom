@@ -66,7 +66,12 @@ function finalize(
   if (!state.startedAt) return undefined;
   const pauseDuration =
     state.pausedTotalMs + (state.pausedAt ? Math.max(0, now - state.pausedAt) : 0);
-  const activeMs = Math.max(0, now - state.startedAt - pauseDuration);
+  const activeMs = opts.completed
+    ? state.plannedMinutes * 60_000
+    : Math.min(
+        state.plannedMinutes * 60_000,
+        Math.max(0, now - state.startedAt - pauseDuration),
+      );
   return {
     kind: state.pausedFrom ?? state.kind,
     plannedMinutes: state.plannedMinutes,
