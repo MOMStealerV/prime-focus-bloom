@@ -1,182 +1,361 @@
-## Stage 2 — Focus Engine
+# PrimeFlow Navigation & Architecture Refinement
 
-Stage 1 visuals stay exactly as they are: themes, `GlassCard`, `ProgressRing`, `AnimatedBar`, `Screen`, `BottomNav` and all layouts are reused, not redesigned. This stage adds the engine underneath them.
+## Objective
 
-## Architecture
+This task is a navigation and architecture refinement only.
 
-```text
-src/lib/focus-engine.tsx   context + state machine + timers (UI-facing)
-src/lib/focus-machine.ts   pure reducer + transitions (no React)
-src/lib/session-store.ts   localStorage session persistence + queries
-src/lib/analytics.ts       derived metrics + flow score (pure, memoized)
-src/lib/achievements.ts    achievement definitions + unlock evaluation
-src/lib/ambient-sound.ts   WebAudio noise + looped sound playback
-src/lib/quotes.ts          quote list + non-repeating rotation
-src/components/focus/*     overlay, ring states, controls, mini widget
-```
+The current PrimeFlow UI and design system are fully approved.
 
-UI never touches localStorage directly; everything goes through the engine and store.
+Do not redesign the application.
 
-## 1. State machine (`focus-machine.ts`)
+Do not modify the existing visual style.
 
-States: `idle → preparing (3s) → focus ⇄ paused → completed → break ⇄ paused → idle`. A pure reducer handles every transition; invalid transitions are no-ops, so the engine can't reach a bad state.
+Preserve:
 
-Persisted snapshot: `{ state, kind, targetEndAt, startedAt, plannedMinutes, pausedAt, pausedTotalMs, pausedCount, distractions, cycleCount, ambientSound }`.
+- Layouts
 
-Timestamp-based only: `remaining = targetEndAt - Date.now() - pausedTotalMs`. A 250ms `requestAnimationFrame`/interval only re-reads the clock; it never counts down. On mount, a persisted in-flight session is rehydrated, and if its end time already passed while the app was closed it is finalized as completed.
+- Themes
 
-## 2. Controls & durations
+- Glassmorphism
 
-Start, Pause, Resume, Reset, Skip Break, End Session — all wired to the reducer, all with 100ms press animation. Presets 25/45/60/90 plus a custom input validated to 5–180 minutes; last selected duration is persisted and preselected.
+- Colors
 
-## 3. Breaks
+- Typography
 
-Focus completion auto-starts a 5-minute break; every 4th completed focus block starts a 15-minute break instead. Break end returns to idle with the previous focus duration re-queued.
+- Icons
 
-## 4. Immersive overlay
+- Spacing
 
-A full-screen portal above everything (bottom nav and page content hidden behind it). Shows only: mode label, remaining time, elapsed time, animated ring, current streak, today's focus time, distraction counter, rotating quote, ambient controls, and Pause/Resume/End (plus Skip during break). Enter/exit use fade + scale, no layout jumps.
+- Shadows
 
-## 5. Ring states
+- Animations
 
-Same Stage 1 ring, extended with a `state` prop: idle soft glow, focus slow breathing pulse, break green pulse, paused frozen animation, completed glow + scale + lightweight CSS confetti burst. All colors from theme tokens.
+- Cards
 
-## 6. Ambient sound
+- Components
 
-Rain, Forest, Ocean, Cafe, Fireplace, White/Brown/Pink Noise. The three noise types are generated with WebAudio (no assets, no licensing risk); the five naturalistic sounds also use layered WebAudio synthesis so they work offline and loop seamlessly. Play/pause, volume slider, looping, and persisted selection.
+- Navigation style
 
-## 7. Quotes
+Everything should look identical after this update.
 
-Curated calm quotes, rotating every few minutes with a fade transition and no immediate repeat.
+Only implement the structural changes described below.
 
-## 8. Session tracking
+---
 
-`session-store.ts` persists each session with the exact requested model (`id, kind, plannedMinutes, actualMinutes, completed, manualEnded, startedAt, endedAt, theme, ambientSound, pausedCount, pauseDuration, distractions, flowScore, dayOfWeek, hour`). Written on complete, early end, skip, and interruption (including recovery of a stale in-flight session on next load).
+# 1. Move Settings into the Profile Menu
 
-## 9. Distractions
+Remove the dedicated Settings tab from the bottom navigation.
 
-`visibilitychange` during focus increments `distractions`; the overlay shows it live.
+Use the existing profile avatar located in the top-right corner as the global entry point for account management and settings.
 
-## 10. Browser integration
+The avatar already exists on the Home screen. Reuse this exact component and place it in the headers of:
 
-Document title shows `23:15 • Focus — PrimeFlow` while running and restores on idle. Notification permission is requested on first session start. On completion: WebAudio chime, in-app toast, and a browser notification when permission is granted.
+- Home
 
-## 11. Analytics screen
+- Focus
 
-All charts fed by real sessions: today's focus, week hours, last 7 days bar chart, average session, completion rate, interrupted sessions, current/best streak, weekly + monthly growth, focus distribution by hour, daily heatmap, and flow-score trend. "Most distracting apps" keeps sample values with a visible "Sample Data" badge. With zero sessions, charts are replaced by the premium empty state ("Your journey starts today." / "Every great achievement begins with one focused session." / Start First Session).
+- Analytics
 
-## 12. Flow score
+- Study
 
-Deterministic: `40% completion rate + 25% daily goal progress + 20% consistency + 15% low-distraction factor`, clamped 0–100. Same inputs always give the same number.
+- Habits
 
-## 13. Dashboard
+The avatar should always open the same reusable Profile Menu component.
 
-Home keeps its exact layout; the values become live — flow score ring, today's focus, current streak, weekly progress — plus recent sessions in place of one mock block, and the existing "Start Focus Session" button becomes a real quick start.
+Do not duplicate this menu.
 
-## 14. Mini widget
+---
 
-When a timer runs and the user is off the Focus screen, a floating glass mini timer sits above the bottom nav showing remaining time and mode; tapping returns to the overlay. It never affects the timer.
+# 2. Profile Menu
 
-## 15. Achievements
+Tapping the profile avatar should open a premium glassmorphic bottom sheet that matches the existing PrimeFlow design language.
 
-Local unlocks: First Focus, 5 / 10 Sessions, 10h, 25h, 7-day and 30-day streak, Deep Worker, Consistency Master. Evaluated after each session, celebrated with a subtle toast/animation, listed on Settings.
+The menu should contain:
 
-## 16. Motion, performance, a11y
+- Profile
 
-Count-up numbers, animated chart loads, smooth digit transitions, GPU-friendly transforms for 60fps. Heavy analytics are memoized and computed once per session change. `prefers-reduced-motion` disables pulses/confetti, controls are keyboard reachable with visible focus rings and ARIA labels, and the timer exposes a polite live region.
+- Account
 
-## Out of scope
+- Notifications
 
-No AI, no cloud sync, no Exam Mode, no navigation or visual redesign.
+- Appearance
 
-CRITICAL REQUIREMENTS
+- Focus Settings
 
-This is an implementation stage, NOT a redesign.
+- Integrations
 
-The current Stage 1 UI is approved.
+- Privacy & Security
 
-Do NOT redesign any existing screens.
+- Premium
 
-Do NOT replace existing components.
+- Help & Support
 
-Do NOT rename existing components.
+- About
 
-Do NOT modify spacing, colors, typography, navigation, layout, themes or animations unless explicitly requested.
+Maintain the existing animation style and visual consistency.
 
-Reuse every existing component wherever possible.
+---
 
-Only extend functionality underneath the existing UI.
+# 3. Migrate Existing Settings
 
-If a new component is required, it must follow the existing design language exactly.
+Move the existing Settings content into the Profile Menu.
 
-Existing components must remain the single source of truth.
+Do not redesign these sections.
 
-Reuse:
+Reuse the existing components exactly.
 
-GlassCard
+Existing functional sections include:
 
-ProgressRing
+Appearance
 
-AnimatedBar
+- Theme picker
 
-BottomNav
+- Theme selection
 
-Screen
+- Dark / Light toggle
 
-Button
+Notifications
 
-Statistic Cards
+- Existing notification preferences
 
-Charts
+Privacy & Security
 
-Theme Provider
+- Existing privacy controls
 
-Do not duplicate these components.
+- Local Data Only information
 
-Only extend them through props when additional functionality is needed.
+About
 
-src/
+- Existing About PrimeFlow section
 
-components/
+Extract these into reusable shared components.
 
-focus/
+Both the Profile Menu and the existing /settings route must use these shared components.
 
-Overlay.tsx
+Do not duplicate code.
 
-ProgressRing.tsx
+---
 
-MiniWidget.tsx
+# 4. Placeholder Sections
 
-Controls.tsx
+Create placeholder panels for sections that do not yet have functionality.
 
-AmbientPlayer.tsx
+These include:
 
-QuoteCard.tsx
+- Profile
 
-lib/
+- Account
 
-focus-engine.tsx
+- Focus Settings
 
-focus-machine.ts
+- Integrations
 
-session-store.ts
+- Premium
 
-analytics.ts
+- Help & Support
 
-ambient-sound.ts
+Do not display "Coming Soon."
 
-quotes.ts
+Instead, use short descriptive text explaining the future purpose of each section while matching the existing card design.
 
-achievements.ts
+Example:
 
-hooks/
+Integrations
 
-useFocusEngine.ts
+Connect Google Calendar, Google Tasks, cloud backup and additional productivity services in future updates.
 
-types/
+---
 
-focus.ts
+# 5. Update Bottom Navigation
 
-session.ts
+Update the bottom navigation order to:
 
-analytics.ts
+1. Home
+
+2. Focus
+
+3. Analytics
+
+4. Study
+
+5. Habits
+
+Remove the Settings tab completely.
+
+Reuse the existing Bottom Navigation component.
+
+Do not modify:
+
+- Height
+
+- Width
+
+- Padding
+
+- Floating behavior
+
+- Glass styling
+
+- Animations
+
+- Corner radius
+
+- Active indicator
+
+Only update the navigation items.
+
+Use an icon from the existing icon library that best represents Study and matches the current visual style.
+
+---
+
+# 6. Study Screen
+
+Create a new Study screen.
+
+Reuse the existing Screen, ScreenTitle and GlassCard components.
+
+Do not introduce a new design language.
+
+The page should include four placeholder cards.
+
+Card 1
+
+Title: Subjects
+
+Description:
+
+Manage and organize your study subjects.
+
+Card 2
+
+Title: Planner
+
+Description:
+
+Plan study sessions, exams and revision schedules.
+
+Card 3
+
+Title: Notes
+
+Description:
+
+Keep all study notes organized in one place.
+
+Card 4
+
+Title: Assignments
+
+Description:
+
+Track homework, deadlines and upcoming work.
+
+These cards are placeholders for future functionality but should feel like a finished part of the application.
+
+---
+
+# 7. Keep the Existing Settings Route
+
+Do not delete the existing /settings route.
+
+Keep it available for compatibility.
+
+Internally, it should reuse the same shared components extracted for the Profile Menu.
+
+No duplicated markup.
+
+---
+
+# 8. Shared Components
+
+Create reusable components where appropriate.
+
+Examples include:
+
+- ProfileAvatar
+
+- ProfileMenu
+
+- AppearanceSection
+
+- NotificationSection
+
+- PrivacySection
+
+- AboutSection
+
+Create shared state where necessary so both the Profile Menu and the /settings route always stay synchronized.
+
+---
+
+# 9. Future-Ready Architecture
+
+Prepare the application for future integrations without implementing them yet.
+
+Design the architecture so the Integrations section can later support:
+
+- Google Sign-In
+
+- Google Calendar
+
+- Google Tasks
+
+- Google Drive Backup
+
+- Google Classroom
+
+- Microsoft Outlook
+
+- Apple Calendar
+
+These should remain placeholders only.
+
+No backend integration is required in this task.
+
+---
+
+# 10. Preserve Existing Functionality
+
+Do not modify:
+
+- Home page functionality
+
+- Focus engine
+
+- Analytics engine
+
+- Habits page
+
+- Existing state management
+
+- Business logic
+
+Apart from adding the reusable Profile Avatar to page headers and updating navigation, every existing screen should remain visually and functionally unchanged.
+
+---
+
+## Success Criteria
+
+The final application should feel like a polished refinement of the existing PrimeFlow project.
+
+The only visible changes should be:
+
+- Settings is now accessed through the Profile Avatar.
+
+- Bottom navigation becomes:
+
+  - Home
+
+  - Focus
+
+  - Analytics
+
+  - Study
+
+  - Habits
+
+- A new Study Hub placeholder screen is available.
+
+- The Profile Menu becomes the central place for account management, settings and future integrations.
+
+Everything else should remain exactly as it is.
