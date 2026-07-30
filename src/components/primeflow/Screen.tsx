@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { ProfileMenu } from "./ProfileMenu";
+
 export function Screen({ children }: { children: ReactNode }) {
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -21,9 +23,12 @@ export function Screen({ children }: { children: ReactNode }) {
 
 export function ScreenTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <header className="animate-rise mb-6">
-      <h1 className="font-display text-[28px] leading-tight font-semibold">{title}</h1>
-      {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+    <header className="animate-rise mb-6 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <h1 className="font-display text-[28px] leading-tight font-semibold">{title}</h1>
+        {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+      </div>
+      <ProfileMenu className="mt-1" />
     </header>
   );
 }

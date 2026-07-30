@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/primeflow/GlassCard";
 import { ProgressRing } from "@/components/primeflow/ProgressRing";
 import { AnimatedBar } from "@/components/primeflow/AnimatedBar";
 import { Screen } from "@/components/primeflow/Screen";
+import { ProfileMenu } from "@/components/primeflow/ProfileMenu";
 import { HABIT_PROGRESS, QUICK_STATS, SCHEDULE } from "@/data/mock";
 import { useTheme } from "@/lib/theme";
 
@@ -54,9 +55,7 @@ function Home() {
           >
             <Palette className="size-[18px] text-primary" />
           </button>
-          <div className="accent-gradient grid size-11 place-items-center rounded-2xl font-display text-sm font-semibold text-primary-foreground">
-            N
-          </div>
+          <ProfileMenu />
         </div>
       </header>
 

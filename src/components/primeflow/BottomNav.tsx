@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Home, Repeat, Settings, Timer } from "lucide-react";
+import { BarChart3, GraduationCap, Home, Repeat, Timer } from "lucide-react";
 
 const TABS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/focus", label: "Focus", icon: Timer },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/study", label: "Study", icon: GraduationCap },
   { to: "/habits", label: "Habits", icon: Repeat },
-  { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function BottomNav() {
