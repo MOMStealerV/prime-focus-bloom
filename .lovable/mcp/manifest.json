@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "primeflow-focus-and-wellbeing",
+      "version": "0.1.0",
+      "title": "PrimeFlow: Focus and Wellbeing"
+    },
+    "tools": [
+      {
+        "name": "list_focus_presets",
+        "title": "List focus presets",
+        "description": "List PrimeFlow's focus session presets, allowed custom durations, break rules and ambient soundscapes.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "build_focus_plan",
+        "title": "Build focus plan",
+        "description": "Build a PrimeFlow pomodoro plan: split a target amount of focus time into focus blocks with short and long breaks.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "totalFocusMinutes": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 720,
+              "description": "Total minutes of focus time to plan for."
+            },
+            "blockMinutes": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 180,
+              "default": 45,
+              "description": "Length of each focus block (5-180 minutes)."
+            }
+          },
+          "required": [
+            "totalFocusMinutes"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_focus_quote",
+        "title": "Get focus quote",
+        "description": "Return a motivational focus quote from PrimeFlow's library. Omit the index for a random quote.",
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 11,
+              "description": "Optional quote index between 0 and 11."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_achievements",
+        "title": "List achievements",
+        "description": "List every PrimeFlow achievement and the milestone required to unlock it. Progress itself stays on the user's device.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_themes",
+        "title": "List themes",
+        "description": "List the PrimeFlow visual themes a user can switch between in Settings.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
