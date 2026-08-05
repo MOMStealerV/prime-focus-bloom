@@ -16,7 +16,7 @@ export const Route = createFileRoute("/study/planner")({
       { property: "og:description", content: "Plan study sessions and revision blocks by date." },
     ],
   }),
-  component: Planner;
+  component: Planner,
 });
 
 function Planner() {
