@@ -4,7 +4,7 @@ import { BookOpen, CalendarClock, ClipboardList, NotebookPen } from "lucide-reac
 import { GlassCard } from "@/components/primeflow/GlassCard";
 import { Screen, ScreenTitle } from "@/components/primeflow/Screen";
 
-export const Route = createFileRoute("/study")({
+export const Route = createFileRoute("/study/")({
   head: () => ({
     meta: [
       { title: "Study Hub — PrimeFlow" },
