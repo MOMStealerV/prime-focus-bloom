@@ -8,10 +8,13 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "../lib/theme";
+import { AuthProvider, readOnboarding } from "../lib/auth";
+import { useAppearanceSync } from "../lib/appearance";
 import { FocusEngineProvider } from "../lib/focus-engine";
 import { FocusLayer } from "../components/focus/FocusLayer";
 import { Toaster } from "../components/ui/sonner";
@@ -137,13 +140,35 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <FocusEngineProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <FocusLayer />
-          <Toaster position="top-center" />
-        </FocusEngineProvider>
+        <AuthProvider>
+          <FocusEngineProvider>
+            <AppShell />
+          </FocusEngineProvider>
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
+  );
+}
+
+function AppShell() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  useAppearanceSync();
+
+  // First launch sends people to the welcome screen once; after that we never interrupt.
+  useEffect(() => {
+    if (readOnboarding()) return;
+    if (pathname === "/welcome" || pathname.startsWith("/auth")) return;
+    if (pathname.startsWith("/.lovable")) return;
+    void navigate({ to: "/welcome", replace: true });
+  }, [pathname, navigate]);
+
+  return (
+    <>
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <Outlet />
+      <FocusLayer />
+      <Toaster position="top-center" />
+    </>
   );
 }
