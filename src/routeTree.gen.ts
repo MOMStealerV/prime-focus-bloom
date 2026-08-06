@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as HabitsRouteImport } from './routes/habits'
 import { Route as FocusRouteImport } from './routes/focus'
@@ -17,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as StudySubjectsRouteImport } from './routes/study/subjects'
 import { Route as StudyPlannerRouteImport } from './routes/study/planner'
 import { Route as StudyNotesRouteImport } from './routes/study/notes'
@@ -26,11 +26,6 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -64,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
 const StudyIndexRoute = StudyIndexRouteImport.update({
   id: '/study/',
   path: '/study/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudySubjectsRoute = StudySubjectsRouteImport.update({
@@ -117,13 +117,13 @@ export interface FileRoutesByFullPath {
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
-  '/settings': typeof SettingsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -135,13 +135,13 @@ export interface FileRoutesByTo {
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
-  '/settings': typeof SettingsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/settings': typeof SettingsIndexRoute
   '/study': typeof StudyIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -154,13 +154,13 @@ export interface FileRoutesById {
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
-  '/settings': typeof SettingsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -174,13 +174,13 @@ export interface FileRouteTypes {
     | '/focus'
     | '/habits'
     | '/mcp'
-    | '/settings'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/settings/'
     | '/study/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -192,13 +192,13 @@ export interface FileRouteTypes {
     | '/focus'
     | '/habits'
     | '/mcp'
-    | '/settings'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/settings'
     | '/study'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -210,13 +210,13 @@ export interface FileRouteTypes {
     | '/focus'
     | '/habits'
     | '/mcp'
-    | '/settings'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/settings/'
     | '/study/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -229,13 +229,13 @@ export interface RootRouteChildren {
   FocusRoute: typeof FocusRoute
   HabitsRoute: typeof HabitsRoute
   McpRoute: typeof McpRoute
-  SettingsRoute: typeof SettingsRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   StudyAssignmentsRoute: typeof StudyAssignmentsRoute
   StudyNotesRoute: typeof StudyNotesRoute
   StudyPlannerRoute: typeof StudyPlannerRoute
   StudySubjectsRoute: typeof StudySubjectsRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -243,13 +243,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
@@ -297,6 +290,13 @@ declare module '@tanstack/react-router' {
       path: '/study'
       fullPath: '/study/'
       preLoaderRoute: typeof StudyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/study/subjects': {
@@ -365,7 +365,6 @@ const rootRouteChildren: RootRouteChildren = {
   FocusRoute: FocusRoute,
   HabitsRoute: HabitsRoute,
   McpRoute: McpRoute,
-  SettingsRoute: SettingsRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
@@ -373,6 +372,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudyNotesRoute: StudyNotesRoute,
   StudyPlannerRoute: StudyPlannerRoute,
   StudySubjectsRoute: StudySubjectsRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
