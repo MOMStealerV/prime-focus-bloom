@@ -21,10 +21,14 @@ import { Route as StudySubjectsRouteImport } from './routes/study/subjects'
 import { Route as StudyPlannerRouteImport } from './routes/study/planner'
 import { Route as StudyNotesRouteImport } from './routes/study/notes'
 import { Route as StudyAssignmentsRouteImport } from './routes/study/assignments'
+import { Route as SettingsStorageRouteImport } from './routes/settings/storage'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
+import { Route as SettingsPrivacyRouteImport } from './routes/settings/privacy'
 import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
+import { Route as SettingsIntegrationsRouteImport } from './routes/settings/integrations'
 import { Route as SettingsFocusRouteImport } from './routes/settings/focus'
 import { Route as SettingsAppearanceRouteImport } from './routes/settings/appearance'
+import { Route as SettingsAccountRouteImport } from './routes/settings/account'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -90,14 +94,29 @@ const StudyAssignmentsRoute = StudyAssignmentsRouteImport.update({
   path: '/study/assignments',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsStorageRoute = SettingsStorageRouteImport.update({
+  id: '/settings/storage',
+  path: '/settings/storage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsProfileRoute = SettingsProfileRouteImport.update({
   id: '/settings/profile',
   path: '/settings/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsPrivacyRoute = SettingsPrivacyRouteImport.update({
+  id: '/settings/privacy',
+  path: '/settings/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
   id: '/settings/notifications',
   path: '/settings/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIntegrationsRoute = SettingsIntegrationsRouteImport.update({
+  id: '/settings/integrations',
+  path: '/settings/integrations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsFocusRoute = SettingsFocusRouteImport.update({
@@ -108,6 +127,11 @@ const SettingsFocusRoute = SettingsFocusRouteImport.update({
 const SettingsAppearanceRoute = SettingsAppearanceRouteImport.update({
   id: '/settings/appearance',
   path: '/settings/appearance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsAccountRoute = SettingsAccountRouteImport.update({
+  id: '/settings/account',
+  path: '/settings/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -143,10 +167,14 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/account': typeof SettingsAccountRoute
   '/settings/appearance': typeof SettingsAppearanceRoute
   '/settings/focus': typeof SettingsFocusRoute
+  '/settings/integrations': typeof SettingsIntegrationsRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/settings/storage': typeof SettingsStorageRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
@@ -165,10 +193,14 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/account': typeof SettingsAccountRoute
   '/settings/appearance': typeof SettingsAppearanceRoute
   '/settings/focus': typeof SettingsFocusRoute
+  '/settings/integrations': typeof SettingsIntegrationsRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/settings/storage': typeof SettingsStorageRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
@@ -188,10 +220,14 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/account': typeof SettingsAccountRoute
   '/settings/appearance': typeof SettingsAppearanceRoute
   '/settings/focus': typeof SettingsFocusRoute
+  '/settings/integrations': typeof SettingsIntegrationsRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/settings/storage': typeof SettingsStorageRoute
   '/study/assignments': typeof StudyAssignmentsRoute
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
@@ -212,10 +248,14 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/account'
     | '/settings/appearance'
     | '/settings/focus'
+    | '/settings/integrations'
     | '/settings/notifications'
+    | '/settings/privacy'
     | '/settings/profile'
+    | '/settings/storage'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
@@ -234,10 +274,14 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/account'
     | '/settings/appearance'
     | '/settings/focus'
+    | '/settings/integrations'
     | '/settings/notifications'
+    | '/settings/privacy'
     | '/settings/profile'
+    | '/settings/storage'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
@@ -256,10 +300,14 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/account'
     | '/settings/appearance'
     | '/settings/focus'
+    | '/settings/integrations'
     | '/settings/notifications'
+    | '/settings/privacy'
     | '/settings/profile'
+    | '/settings/storage'
     | '/study/assignments'
     | '/study/notes'
     | '/study/planner'
@@ -279,10 +327,14 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  SettingsAccountRoute: typeof SettingsAccountRoute
   SettingsAppearanceRoute: typeof SettingsAppearanceRoute
   SettingsFocusRoute: typeof SettingsFocusRoute
+  SettingsIntegrationsRoute: typeof SettingsIntegrationsRoute
   SettingsNotificationsRoute: typeof SettingsNotificationsRoute
+  SettingsPrivacyRoute: typeof SettingsPrivacyRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
+  SettingsStorageRoute: typeof SettingsStorageRoute
   StudyAssignmentsRoute: typeof StudyAssignmentsRoute
   StudyNotesRoute: typeof StudyNotesRoute
   StudyPlannerRoute: typeof StudyPlannerRoute
@@ -379,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudyAssignmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/storage': {
+      id: '/settings/storage'
+      path: '/settings/storage'
+      fullPath: '/settings/storage'
+      preLoaderRoute: typeof SettingsStorageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings/profile': {
       id: '/settings/profile'
       path: '/settings/profile'
@@ -386,11 +445,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/privacy': {
+      id: '/settings/privacy'
+      path: '/settings/privacy'
+      fullPath: '/settings/privacy'
+      preLoaderRoute: typeof SettingsPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings/notifications': {
       id: '/settings/notifications'
       path: '/settings/notifications'
       fullPath: '/settings/notifications'
       preLoaderRoute: typeof SettingsNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/integrations': {
+      id: '/settings/integrations'
+      path: '/settings/integrations'
+      fullPath: '/settings/integrations'
+      preLoaderRoute: typeof SettingsIntegrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/focus': {
@@ -405,6 +478,13 @@ declare module '@tanstack/react-router' {
       path: '/settings/appearance'
       fullPath: '/settings/appearance'
       preLoaderRoute: typeof SettingsAppearanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/account': {
+      id: '/settings/account'
+      path: '/settings/account'
+      fullPath: '/settings/account'
+      preLoaderRoute: typeof SettingsAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/oauth-protected-resource': {
@@ -448,10 +528,14 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  SettingsAccountRoute: SettingsAccountRoute,
   SettingsAppearanceRoute: SettingsAppearanceRoute,
   SettingsFocusRoute: SettingsFocusRoute,
+  SettingsIntegrationsRoute: SettingsIntegrationsRoute,
   SettingsNotificationsRoute: SettingsNotificationsRoute,
+  SettingsPrivacyRoute: SettingsPrivacyRoute,
   SettingsProfileRoute: SettingsProfileRoute,
+  SettingsStorageRoute: SettingsStorageRoute,
   StudyAssignmentsRoute: StudyAssignmentsRoute,
   StudyNotesRoute: StudyNotesRoute,
   StudyPlannerRoute: StudyPlannerRoute,
