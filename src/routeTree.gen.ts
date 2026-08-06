@@ -23,6 +23,8 @@ import { Route as StudyNotesRouteImport } from './routes/study/notes'
 import { Route as StudyAssignmentsRouteImport } from './routes/study/assignments'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
+import { Route as SettingsFocusRouteImport } from './routes/settings/focus'
+import { Route as SettingsAppearanceRouteImport } from './routes/settings/appearance'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -98,6 +100,16 @@ const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
   path: '/settings/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsFocusRoute = SettingsFocusRouteImport.update({
+  id: '/settings/focus',
+  path: '/settings/focus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsAppearanceRoute = SettingsAppearanceRouteImport.update({
+  id: '/settings/appearance',
+  path: '/settings/appearance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -131,6 +143,8 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/focus': typeof SettingsFocusRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/study/assignments': typeof StudyAssignmentsRoute
@@ -151,6 +165,8 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/focus': typeof SettingsFocusRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/study/assignments': typeof StudyAssignmentsRoute
@@ -172,6 +188,8 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/focus': typeof SettingsFocusRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/study/assignments': typeof StudyAssignmentsRoute
@@ -194,6 +212,8 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/appearance'
+    | '/settings/focus'
     | '/settings/notifications'
     | '/settings/profile'
     | '/study/assignments'
@@ -214,6 +234,8 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/appearance'
+    | '/settings/focus'
     | '/settings/notifications'
     | '/settings/profile'
     | '/study/assignments'
@@ -234,6 +256,8 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/settings/appearance'
+    | '/settings/focus'
     | '/settings/notifications'
     | '/settings/profile'
     | '/study/assignments'
@@ -255,6 +279,8 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  SettingsAppearanceRoute: typeof SettingsAppearanceRoute
+  SettingsFocusRoute: typeof SettingsFocusRoute
   SettingsNotificationsRoute: typeof SettingsNotificationsRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
   StudyAssignmentsRoute: typeof StudyAssignmentsRoute
@@ -367,6 +393,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsNotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/focus': {
+      id: '/settings/focus'
+      path: '/settings/focus'
+      fullPath: '/settings/focus'
+      preLoaderRoute: typeof SettingsFocusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/appearance': {
+      id: '/settings/appearance'
+      path: '/settings/appearance'
+      fullPath: '/settings/appearance'
+      preLoaderRoute: typeof SettingsAppearanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -408,6 +448,8 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  SettingsAppearanceRoute: SettingsAppearanceRoute,
+  SettingsFocusRoute: SettingsFocusRoute,
   SettingsNotificationsRoute: SettingsNotificationsRoute,
   SettingsProfileRoute: SettingsProfileRoute,
   StudyAssignmentsRoute: StudyAssignmentsRoute,
