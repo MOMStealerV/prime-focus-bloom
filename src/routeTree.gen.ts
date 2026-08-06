@@ -13,6 +13,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as HabitsRouteImport } from './routes/habits'
 import { Route as FocusRouteImport } from './routes/focus'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
@@ -23,6 +24,7 @@ import { Route as StudyAssignmentsRouteImport } from './routes/study/assignments
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -42,6 +44,11 @@ const HabitsRoute = HabitsRouteImport.update({
 const FocusRoute = FocusRouteImport.update({
   id: '/focus',
   path: '/focus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -97,10 +104,16 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/auth': typeof AuthRoute
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
@@ -112,11 +125,13 @@ export interface FileRoutesByFullPath {
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
   '/study/': typeof StudyIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/auth': typeof AuthRoute
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
@@ -128,12 +143,14 @@ export interface FileRoutesByTo {
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
   '/study': typeof StudyIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/auth': typeof AuthRoute
   '/focus': typeof FocusRoute
   '/habits': typeof HabitsRoute
   '/mcp': typeof McpRoute
@@ -145,6 +162,7 @@ export interface FileRoutesById {
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
   '/study/': typeof StudyIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRouteTypes {
@@ -152,6 +170,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/auth'
     | '/focus'
     | '/habits'
     | '/mcp'
@@ -163,11 +182,13 @@ export interface FileRouteTypes {
     | '/study/planner'
     | '/study/subjects'
     | '/study/'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analytics'
+    | '/auth'
     | '/focus'
     | '/habits'
     | '/mcp'
@@ -179,11 +200,13 @@ export interface FileRouteTypes {
     | '/study/planner'
     | '/study/subjects'
     | '/study'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   id:
     | '__root__'
     | '/'
     | '/analytics'
+    | '/auth'
     | '/focus'
     | '/habits'
     | '/mcp'
@@ -195,12 +218,14 @@ export interface FileRouteTypes {
     | '/study/planner'
     | '/study/subjects'
     | '/study/'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  AuthRoute: typeof AuthRoute
   FocusRoute: typeof FocusRoute
   HabitsRoute: typeof HabitsRoute
   McpRoute: typeof McpRoute
@@ -212,6 +237,7 @@ export interface RootRouteChildren {
   StudyPlannerRoute: typeof StudyPlannerRoute
   StudySubjectsRoute: typeof StudySubjectsRoute
   StudyIndexRoute: typeof StudyIndexRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
@@ -243,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: '/focus'
       fullPath: '/focus'
       preLoaderRoute: typeof FocusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -315,12 +348,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  AuthRoute: AuthRoute,
   FocusRoute: FocusRoute,
   HabitsRoute: HabitsRoute,
   McpRoute: McpRoute,
@@ -333,6 +374,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudyPlannerRoute: StudyPlannerRoute,
   StudySubjectsRoute: StudySubjectsRoute,
   StudyIndexRoute: StudyIndexRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
