@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
+
 
 import { FocusOverlay } from "./Overlay";
 import { MiniWidget } from "./MiniWidget";
