@@ -164,7 +164,7 @@ function AppShell() {
     if (pathname.startsWith("/.lovable")) return;
     const id = window.setTimeout(() => {
       void navigate({ to: "/welcome", replace: true });
-    }, 0);
+    }, 150);
     return () => window.clearTimeout(id);
   }, [pathname, navigate]);
 
