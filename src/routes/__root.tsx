@@ -156,12 +156,18 @@ function AppShell() {
   useAppearanceSync();
 
   // First launch sends people to the welcome screen once; after that we never interrupt.
+  // The redirect is deferred to a macrotask so it never fires mid-hydration, which would
+  // tear down a client-only route while React is still hydrating it.
   useEffect(() => {
     if (readOnboarding()) return;
     if (pathname === "/welcome" || pathname.startsWith("/auth")) return;
     if (pathname.startsWith("/.lovable")) return;
-    void navigate({ to: "/welcome", replace: true });
+    const id = window.setTimeout(() => {
+      void navigate({ to: "/welcome", replace: true });
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [pathname, navigate]);
+
 
   return (
     <>
