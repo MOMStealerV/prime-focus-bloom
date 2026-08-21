@@ -11,6 +11,7 @@ import { isActive } from "@/lib/focus-machine";
 export function FocusLayer() {
   const { state } = useFocusEngine();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [minimized, setMinimized] = useState(false);
   const active = isActive(state.phase) || state.phase === "completed";
   const onFocusRoute = pathname === "/focus";
@@ -25,13 +26,21 @@ export function FocusLayer() {
     setMinimized(!onFocusRoute);
   }, [onFocusRoute]);
 
-  const showOverlay = active && !minimized;
+  const showOverlay = active && !minimized && onFocusRoute;
 
   return (
     <>
       {showOverlay ? <FocusOverlay onMinimize={() => setMinimized(true)} /> : null}
-      {active && !showOverlay ? <MiniWidget onOpen={() => setMinimized(false)} /> : null}
+      {active && !showOverlay ? (
+        <MiniWidget
+          onOpen={() => {
+            setMinimized(false);
+            if (!onFocusRoute) void navigate({ to: "/focus" });
+          }}
+        />
+      ) : null}
       {showOverlay ? null : <BottomNav />}
     </>
   );
+
 }
