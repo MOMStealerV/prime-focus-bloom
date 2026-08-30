@@ -25,10 +25,13 @@ export function ProfileMenu() {
           <button
             aria-label="Close"
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-background/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-background/85 backdrop-blur-md"
           />
-          <div className="glass animate-rise relative mx-auto max-h-[85dvh] w-full max-w-md overflow-y-auto rounded-t-[32px] p-5 pb-8">
+          <div className="animate-rise relative mx-auto flex max-h-[85dvh] min-h-[60dvh] w-full max-w-md flex-col overflow-hidden rounded-t-[32px] border border-border/60 bg-card shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.55)]">
+            <div className="mx-auto mt-3 h-1.5 w-10 shrink-0 rounded-full bg-muted-foreground/30" />
+            <div className="flex-1 overflow-y-auto p-5 pb-8">
             <div className="mb-5 flex items-center gap-3">
+
               <div className="accent-gradient font-display grid size-12 place-items-center rounded-2xl text-base font-semibold text-primary-foreground">
                 {profile?.avatar_url || initials(name)}
               </div>
@@ -78,7 +81,9 @@ export function ProfileMenu() {
                 </Link>
               ))}
             </div>
+            </div>
           </div>
+
         </div>
       ) : null}
     </>
