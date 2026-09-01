@@ -45,3 +45,46 @@ Important states, shown as their own labelled frames:
 - Iframes are same-origin and lazy-loaded so the gallery stays responsive with ~28 frames.
 - The state flags are read where the state already lives (profile sheet, focus engine) via a small guarded check — read-only, no logic changes.
 - Marked as temporary: deleting the three files removes the feature entirely.
+- &nbsp;
+- &nbsp;
+- EXPORT THE PRIMEFLOW UI REFERENCE SCREENS
+  The /ui-gallery and /ui-gallery/view are working correctly.
+  Now add an export function to the temporary UI Gallery.
+  I need every one of the 28 UI reference screens exported as an individual PNG image.
+  Requirements:
+  - Export all 28 screens.
+  - Use the same 393 x 852 mobile viewport used by the gallery.
+  - Render the actual PrimeFlow screens, not approximations.
+  - Preserve the exact current styling, typography, spacing, colors and components.
+  - Include the screen name in the exported filename.
+  - Include important state screens listed in the gallery.
+  - Do not modify the original PrimeFlow pages or their functionality.
+  Create an "Export All Screens" button on /ui-gallery.
+  When clicked:
+  1. Render each gallery screen.
+  2. Capture it at 393 x 852.
+  3. Generate an individual PNG for each screen.
+  4. Package all PNGs into one ZIP.
+  5. Provide the ZIP for download.
+  Use filenames such as:
+  01-Home.png
+  02-Focus.png
+  03-Analytics.png
+  04-Habits.png
+  05-Study.png
+  06-Subjects.png
+  07-Planner.png
+  08-Notes.png
+  09-Assignments.png
+  10-Settings.png
+  Continue for every actual screen in the existing gallery.
+  Also provide an option to export the current screen individually.
+  IMPORTANT:
+  This is a temporary documentation/export tool only.
+  Do not redesign PrimeFlow.
+  Do not change existing routes.
+  Do not change existing functionality.
+  Do not change the actual UI.
+  Do not invent additional screens.
+  The exported images must represent the actual current PrimeFlow UI.
+  &nbsp;
