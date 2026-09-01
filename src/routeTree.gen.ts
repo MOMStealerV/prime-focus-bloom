@@ -16,6 +16,7 @@ import { Route as FocusRouteImport } from './routes/focus'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UiGalleryIndexRouteImport } from './routes/ui-gallery/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as StudySubjectsRouteImport } from './routes/study/subjects'
@@ -71,6 +72,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UiGalleryIndexRoute = UiGalleryIndexRouteImport.update({
+  id: '/ui-gallery/',
+  path: '/ui-gallery/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudyIndexRoute = StudyIndexRouteImport.update({
@@ -209,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/study/subjects': typeof StudySubjectsRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/ui-gallery/': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -239,6 +246,7 @@ export interface FileRoutesByTo {
   '/study/subjects': typeof StudySubjectsRoute
   '/settings': typeof SettingsIndexRoute
   '/study': typeof StudyIndexRoute
+  '/ui-gallery': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/study/subjects': typeof StudySubjectsRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/ui-gallery/': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -302,6 +311,7 @@ export interface FileRouteTypes {
     | '/study/subjects'
     | '/settings/'
     | '/study/'
+    | '/ui-gallery/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/study/subjects'
     | '/settings'
     | '/study'
+    | '/ui-gallery'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   id:
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/study/subjects'
     | '/settings/'
     | '/study/'
+    | '/ui-gallery/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
@@ -393,6 +405,7 @@ export interface RootRouteChildren {
   StudySubjectsRoute: typeof StudySubjectsRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
+  UiGalleryIndexRoute: typeof UiGalleryIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -446,6 +459,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ui-gallery/': {
+      id: '/ui-gallery/'
+      path: '/ui-gallery'
+      fullPath: '/ui-gallery/'
+      preLoaderRoute: typeof UiGalleryIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/study/': {
@@ -626,6 +646,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudySubjectsRoute: StudySubjectsRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
+  UiGalleryIndexRoute: UiGalleryIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
