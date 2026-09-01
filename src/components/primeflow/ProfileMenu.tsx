@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 
 import { SETTINGS_ITEMS } from "@/components/settings/items";
 import { displayName, initials, useAuth } from "@/lib/auth";
+import { galleryFlag } from "@/lib/ui-gallery-screens";
 
 export function ProfileMenu() {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,12 @@ export function ProfileMenu() {
   const name = displayName(profile, user);
 
   useEffect(() => setMounted(true), []);
+
+  // Documentation-only: the UI reference gallery opens this sheet via ?gallery=profile.
+  // Inert on every normal visit.
+  useEffect(() => {
+    if (galleryFlag() === "profile") setOpen(true);
+  }, []);
 
   // Escape to close + background scroll lock while the sheet is open.
   useEffect(() => {
