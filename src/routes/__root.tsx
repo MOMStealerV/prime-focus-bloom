@@ -18,6 +18,8 @@ import { useAppearanceSync } from "../lib/appearance";
 import { FocusEngineProvider } from "../lib/focus-engine";
 import { FocusLayer } from "../components/focus/FocusLayer";
 import { Toaster } from "../components/ui/sonner";
+import { GalleryStateDriver } from "../components/gallery/GalleryStateDriver";
+import { galleryFlag } from "../lib/ui-gallery-screens";
 
 function NotFoundComponent() {
   return (
