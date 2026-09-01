@@ -162,18 +162,22 @@ function AppShell() {
     if (readOnboarding()) return;
     if (pathname === "/welcome" || pathname.startsWith("/auth")) return;
     if (pathname.startsWith("/.lovable")) return;
+    // Temporary UI reference gallery renders real routes in frames — never redirect those.
+    if (pathname.startsWith("/ui-gallery") || galleryFlag()) return;
     const id = window.setTimeout(() => {
       void navigate({ to: "/welcome", replace: true });
     }, 150);
     return () => window.clearTimeout(id);
   }, [pathname, navigate]);
 
+  const inGallery = pathname.startsWith("/ui-gallery");
 
   return (
     <>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <FocusLayer />
+      {inGallery ? null : <FocusLayer />}
+      <GalleryStateDriver />
       <Toaster position="top-center" />
     </>
   );
