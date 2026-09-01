@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UiGalleryIndexRouteImport } from './routes/ui-gallery/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as UiGalleryViewRouteImport } from './routes/ui-gallery/view'
 import { Route as StudySubjectsRouteImport } from './routes/study/subjects'
 import { Route as StudyPlannerRouteImport } from './routes/study/planner'
 import { Route as StudyNotesRouteImport } from './routes/study/notes'
@@ -87,6 +88,11 @@ const StudyIndexRoute = StudyIndexRouteImport.update({
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UiGalleryViewRoute = UiGalleryViewRouteImport.update({
+  id: '/ui-gallery/view',
+  path: '/ui-gallery/view',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudySubjectsRoute = StudySubjectsRouteImport.update({
@@ -213,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
   '/ui-gallery/': typeof UiGalleryIndexRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings': typeof SettingsIndexRoute
   '/study': typeof StudyIndexRoute
   '/ui-gallery': typeof UiGalleryIndexRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
   '/ui-gallery/': typeof UiGalleryIndexRoute
@@ -309,6 +318,7 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings/'
     | '/study/'
     | '/ui-gallery/'
@@ -340,6 +350,7 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings'
     | '/study'
     | '/ui-gallery'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings/'
     | '/study/'
     | '/ui-gallery/'
@@ -403,6 +415,7 @@ export interface RootRouteChildren {
   StudyNotesRoute: typeof StudyNotesRoute
   StudyPlannerRoute: typeof StudyPlannerRoute
   StudySubjectsRoute: typeof StudySubjectsRoute
+  UiGalleryViewRoute: typeof UiGalleryViewRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
   UiGalleryIndexRoute: typeof UiGalleryIndexRoute
@@ -480,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ui-gallery/view': {
+      id: '/ui-gallery/view'
+      path: '/ui-gallery/view'
+      fullPath: '/ui-gallery/view'
+      preLoaderRoute: typeof UiGalleryViewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/study/subjects': {
@@ -644,6 +664,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudyNotesRoute: StudyNotesRoute,
   StudyPlannerRoute: StudyPlannerRoute,
   StudySubjectsRoute: StudySubjectsRoute,
+  UiGalleryViewRoute: UiGalleryViewRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
   UiGalleryIndexRoute: UiGalleryIndexRoute,
