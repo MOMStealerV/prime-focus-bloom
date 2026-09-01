@@ -16,8 +16,10 @@ import { Route as FocusRouteImport } from './routes/focus'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UiGalleryIndexRouteImport } from './routes/ui-gallery/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as UiGalleryViewRouteImport } from './routes/ui-gallery/view'
 import { Route as StudySubjectsRouteImport } from './routes/study/subjects'
 import { Route as StudyPlannerRouteImport } from './routes/study/planner'
 import { Route as StudyNotesRouteImport } from './routes/study/notes'
@@ -73,6 +75,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UiGalleryIndexRoute = UiGalleryIndexRouteImport.update({
+  id: '/ui-gallery/',
+  path: '/ui-gallery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudyIndexRoute = StudyIndexRouteImport.update({
   id: '/study/',
   path: '/study/',
@@ -81,6 +88,11 @@ const StudyIndexRoute = StudyIndexRouteImport.update({
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UiGalleryViewRoute = UiGalleryViewRouteImport.update({
+  id: '/ui-gallery/view',
+  path: '/ui-gallery/view',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudySubjectsRoute = StudySubjectsRouteImport.update({
@@ -207,8 +219,10 @@ export interface FileRoutesByFullPath {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/ui-gallery/': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -237,8 +251,10 @@ export interface FileRoutesByTo {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings': typeof SettingsIndexRoute
   '/study': typeof StudyIndexRoute
+  '/ui-gallery': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -268,8 +284,10 @@ export interface FileRoutesById {
   '/study/notes': typeof StudyNotesRoute
   '/study/planner': typeof StudyPlannerRoute
   '/study/subjects': typeof StudySubjectsRoute
+  '/ui-gallery/view': typeof UiGalleryViewRoute
   '/settings/': typeof SettingsIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/ui-gallery/': typeof UiGalleryIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -300,8 +318,10 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings/'
     | '/study/'
+    | '/ui-gallery/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
@@ -330,8 +350,10 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings'
     | '/study'
+    | '/ui-gallery'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   id:
@@ -360,8 +382,10 @@ export interface FileRouteTypes {
     | '/study/notes'
     | '/study/planner'
     | '/study/subjects'
+    | '/ui-gallery/view'
     | '/settings/'
     | '/study/'
+    | '/ui-gallery/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
@@ -391,8 +415,10 @@ export interface RootRouteChildren {
   StudyNotesRoute: typeof StudyNotesRoute
   StudyPlannerRoute: typeof StudyPlannerRoute
   StudySubjectsRoute: typeof StudySubjectsRoute
+  UiGalleryViewRoute: typeof UiGalleryViewRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
+  UiGalleryIndexRoute: typeof UiGalleryIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -448,6 +474,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ui-gallery/': {
+      id: '/ui-gallery/'
+      path: '/ui-gallery'
+      fullPath: '/ui-gallery/'
+      preLoaderRoute: typeof UiGalleryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/study/': {
       id: '/study/'
       path: '/study'
@@ -460,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ui-gallery/view': {
+      id: '/ui-gallery/view'
+      path: '/ui-gallery/view'
+      fullPath: '/ui-gallery/view'
+      preLoaderRoute: typeof UiGalleryViewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/study/subjects': {
@@ -624,8 +664,10 @@ const rootRouteChildren: RootRouteChildren = {
   StudyNotesRoute: StudyNotesRoute,
   StudyPlannerRoute: StudyPlannerRoute,
   StudySubjectsRoute: StudySubjectsRoute,
+  UiGalleryViewRoute: UiGalleryViewRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
+  UiGalleryIndexRoute: UiGalleryIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
