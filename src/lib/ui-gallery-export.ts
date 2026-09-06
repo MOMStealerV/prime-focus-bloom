@@ -32,29 +32,59 @@ export async function captureFrame(frame: HTMLIFrameElement, scale = 2): Promise
   return await toBlob(canvas);
 }
 
+export type ExportItem = {
+  screen: GalleryScreen;
+  frame: HTMLIFrameElement | null;
+  fileName: string;
+};
+
+/** Theme passes written into the ZIP, each in its own folder. */
+export const EXPORT_THEMES = [
+  { id: "midnight", tone: "dark", folder: "dark-midnight" },
+  { id: "arctic", tone: "light", folder: "light-arctic" },
+] as const;
+
+/**
+ * Applies a theme to the frame's own document only (read-only visual override —
+ * the app's stored preference is never touched).
+ */
+function applyFrameTheme(frame: HTMLIFrameElement, theme: string) {
+  const doc = frame.contentDocument;
+  if (!doc) return;
+  doc.documentElement.dataset.theme = theme;
+}
+
 export async function exportAllScreens(
-  items: { screen: GalleryScreen; frame: HTMLIFrameElement | null; fileName: string }[],
+  items: ExportItem[],
   onProgress?: (done: number, total: number, name: string) => void,
+  extraFiles: { name: string; content: string }[] = [],
 ): Promise<Blob> {
   const zip = new JSZip();
+  const total = items.length * EXPORT_THEMES.length;
   let done = 0;
 
-  for (const { screen, frame, fileName } of items) {
-    onProgress?.(done, items.length, screen.name);
-    if (frame) {
-      // Lazy frames may not have loaded yet — force them into view and settle.
-      frame.scrollIntoView({ block: "center" });
-      await waitForFrame(frame);
-      try {
-        const blob = await captureFrame(frame);
-        zip.file(fileName, blob);
-      } catch (error) {
-        console.error(`Capture failed for ${screen.name}`, error);
+  for (const theme of EXPORT_THEMES) {
+    for (const { screen, frame, fileName } of items) {
+      onProgress?.(done, total, `${theme.folder} · ${screen.name}`);
+      if (frame) {
+        // Lazy frames may not have loaded yet — force them into view and settle.
+        frame.scrollIntoView({ block: "center" });
+        await waitForFrame(frame);
+        applyFrameTheme(frame, theme.id);
+        await new Promise((r) => window.setTimeout(r, 350));
+        try {
+          const blob = await captureFrame(frame);
+          zip.file(`${theme.folder}/${fileName}`, blob);
+        } catch (error) {
+          console.error(`Capture failed for ${screen.name}`, error);
+        }
       }
+      done += 1;
+      onProgress?.(done, total, `${theme.folder} · ${screen.name}`);
     }
-    done += 1;
-    onProgress?.(done, items.length, screen.name);
   }
+
+  for (const file of extraFiles) zip.file(file.name, file.content);
 
   return await zip.generateAsync({ type: "blob" });
 }
