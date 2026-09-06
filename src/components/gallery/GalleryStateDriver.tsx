@@ -11,23 +11,22 @@ import { useFocusEngine } from "@/hooks/useFocusEngine";
 import { galleryFlag } from "@/lib/ui-gallery-screens";
 
 export function GalleryStateDriver() {
-  const { state, start, pause, reset } = useFocusEngine();
+  const { state, start, pause } = useFocusEngine();
   const started = useRef(false);
   const paused = useRef(false);
+  const phaseRef = useRef(state.phase);
+  phaseRef.current = state.phase;
 
+  // Kick a demo session once, on mount only. Never touches a real session.
   useEffect(() => {
     const flag = galleryFlag();
     if (!flag || flag === "profile") return;
     if (started.current) return;
-    // Never hijack a real session that is already running.
-    if (state.phase !== "idle") return;
+    if (phaseRef.current !== "idle") return;
     started.current = true;
     start(25);
-    return () => {
-      reset();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase]);
+  }, []);
 
   useEffect(() => {
     if (galleryFlag() !== "focus-paused") return;
