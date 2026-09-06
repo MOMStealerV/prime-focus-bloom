@@ -17,14 +17,24 @@ export function GalleryStateDriver() {
   const phaseRef = useRef(state.phase);
   phaseRef.current = state.phase;
 
-  // Kick a demo session once, on mount only. Never touches a real session.
+  // Kick a demo session shortly after mount, once local state has settled.
+  // Retries a few times because the engine restores its stored state on load.
   useEffect(() => {
     const flag = galleryFlag();
     if (!flag || flag === "profile") return;
-    if (started.current) return;
-    if (phaseRef.current !== "idle") return;
-    started.current = true;
-    start(25);
+    let tries = 0;
+    const id = window.setInterval(() => {
+      tries += 1;
+      if (phaseRef.current !== "idle" || tries > 10) {
+        window.clearInterval(id);
+        return;
+      }
+      if (!started.current || phaseRef.current === "idle") {
+        started.current = true;
+        start(25);
+      }
+    }, 400);
+    return () => window.clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
